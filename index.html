@@ -1,16 +1,47 @@
 <!DOCTYPE html>
 <html>
 
-<body>
-    <link rel="stylesheet" href="98.css/style.css">
-    <div class="window" width>
+<body style="margin: 0; padding: 0; border: 0;">
+    <!-- ズーム禁止用スクリプト -->
+    <script>
+        function disableZoom() {
+            var webFrame = require('electron').webFrame;
+            webFrame.setVisualZoomLevelLimits(1, 1);
+        }
+    </script>
+
+    <!-- CSS読み込み -->
+    <link rel="stylesheet" href="./css/98.css/style.css">
+    <link rel="stylesheet" href="./css/index.css">
+
+    <!-- 以下メイン -->
+    <div class="window">
         <div class="title-bar">
             <div class="title-bar-text">Counter</div>
             <div class="title-bar-controls">
-                <button aria-label="Close" />
+                <button aria-label="Close" id="closeButton" />
+            </div>
+        </div>
+        <div class="window-body">
+            <div class="count-area">
+                <p class="count">Counter Count:&nbsp;</p>
+                <p class="count-num" id="count-num">0</p>
+            </div>
+            <div class="field-row">
+                <button class="plus" id="plus">+</button>
+                <button class="minus" id="minus">-</button>
+                <button class="zero" id="zero">0</button>
             </div>
         </div>
     </div>
+    <script>
+        const { ipcRenderer } = require('electron');
+        // ボタンがクリックされたときにメインプロセスにメッセージを送信
+        document.getElementById('closeButton').addEventListener('click', () => {
+            ipcRenderer.send('closeApp');
+        });
+    </script>
+    <script src="./js/index.js"></script>
 </body>
 
 </html>
